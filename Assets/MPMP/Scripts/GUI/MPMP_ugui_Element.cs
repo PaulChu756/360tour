@@ -195,15 +195,29 @@ namespace monoflow {
             {
                 case Mode.SEEK:
                     if (_slider && !_isPointerDown)
-                    {                     
-                        try {
-                            _slider.value = Mathf.Clamp01(System.Convert.ToSingle(player.GetCurrentPosition(true)));
-                        }
-                        catch (Exception)
+                    {
+                        //try
+                        //{
+                        
+                        if (Input.GetKey(KeyCode.UpArrow))
                         {
-                            Debug.Log("ERROR Converting double to float:");
+                            Debug.Log("up");
+                            _slider.value += 0.01f;
                         }
-                      
+                        if (Input.GetKey(KeyCode.DownArrow))
+                        {
+                            Debug.Log("down");
+                            _slider.value -=  0.01f;
+                        }
+                        _slider.value = Mathf.Clamp01(System.Convert.ToSingle(player.GetCurrentPosition(true)));
+
+
+                        //}
+                        //catch (Exception)
+                        //{
+                        //Debug.Log("ERROR Converting double to float:");
+                        //}
+
                         //Debug.Log("GetCurrentPosition:" + _slider.value);
                     }
                     if (_slider && _isPointerDown)

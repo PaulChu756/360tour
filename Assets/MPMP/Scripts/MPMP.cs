@@ -79,8 +79,8 @@ namespace monoflow {
         [SerializeField, HideInInspector]
         private bool _looping;
 
-        [SerializeField, HideInInspector]
-        private float _seek;      
+        [SerializeField]
+        public float _seek;      
 
        [SerializeField, HideInInspector]
         private float _balance;//-1 - 1 
