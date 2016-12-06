@@ -253,6 +253,11 @@ namespace monoflow {
                         }
                         _button.colors = _colorBlock;
                     }
+                    //chui code, pause and unpause the video
+                    if(Input.GetKeyDown(KeyCode.Space))
+                    {
+                        player.Pause();
+                    }
                     break;
                 case Mode.LOAD:
                     if (_button)
