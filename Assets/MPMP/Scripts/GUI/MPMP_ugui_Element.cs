@@ -49,11 +49,6 @@ namespace monoflow {
         private bool _isPointerDown;
         private bool _isPlaying;
 
-    
-        void Awake()
-        {
-       
-        }
         void Start ()
         {
 		    //Debug.Log("Start");
@@ -196,29 +191,15 @@ namespace monoflow {
                 case Mode.SEEK:
                     if (_slider && !_isPointerDown)
                     {
-                        //try
-                        //{
-                        
-                        if (Input.GetKey(KeyCode.UpArrow))
+                        try
                         {
-                            Debug.Log("up");
-                            _slider.value += 0.01f;
+                            _slider.value = Mathf.Clamp01(System.Convert.ToSingle(player.GetCurrentPosition(true)));
                         }
-                        if (Input.GetKey(KeyCode.DownArrow))
+                        catch (Exception)
                         {
-                            Debug.Log("down");
-                            _slider.value -=  0.01f;
+                            Debug.Log("ERROR Converting double to float:");
                         }
-                        _slider.value = Mathf.Clamp01(System.Convert.ToSingle(player.GetCurrentPosition(true)));
-
-
-                        //}
-                        //catch (Exception)
-                        //{
-                        //Debug.Log("ERROR Converting double to float:");
-                        //}
-
-                        //Debug.Log("GetCurrentPosition:" + _slider.value);
+                        Debug.Log("GetCurrentPosition:" + _slider.value);
                     }
                     if (_slider && _isPointerDown)
                     {
@@ -419,13 +400,31 @@ namespace monoflow {
                 if (_slider)
                 {
                     // Debug.Log("_Seek:" + _slider.value);
-                    if (OnDraged != null) OnDraged(_slider.value);
+                    if (OnDraged != null)
+                    {
+                        OnDraged(_slider.value);
+                    }
                 }
             }
         }
 
-       
-   
+        //Chui's code, instead of change their code, we just add ours
+        // we want to press arrow key up/down to change the value of seek
+        // so first we need to check if the mode is seek
+        // then check if the key is pressed to change the value of slider.
+        private void _UpdateSeek()
+        {
+            if(mode == Mode.SEEK)
+            {
+                if(_slider)
+                {
+                    if (Input.GetKeyDown(KeyCode.UpArrow))
+                    {
+
+                    }
+                }
+            }
+        }
     }
 }
 
