@@ -24,6 +24,7 @@ namespace monoflow {
         public Action<float> OnDraged;
         //chui code
         public Action<float> OnPressed;
+        public float updatePressed = 0.05f;
         public Action<double,double> OnUpdateTime;
         public Action OnUpdate;
         [HideInInspector]
@@ -426,18 +427,18 @@ namespace monoflow {
             {
                 if(_slider)
                 {
-                    if (Input.GetKeyDown(KeyCode.UpArrow))
+                    if (Input.GetKey(KeyCode.UpArrow))
                     {
-                        _slider.value += 0.1f;
+                        _slider.value += updatePressed;
                         OnPressed(_slider.value);
-                        Debug.Log("Key Up");
+                        //Debug.Log("Key Up");
                     }
 
-                    if (Input.GetKeyDown(KeyCode.DownArrow))
+                    if (Input.GetKey(KeyCode.DownArrow))
                     {
-                        _slider.value -= 0.1f;
+                        _slider.value -= updatePressed;
                         OnPressed(_slider.value);
-                        Debug.Log("Key Down");
+                        //Debug.Log("Key Down");
                     }
                 }
             }
