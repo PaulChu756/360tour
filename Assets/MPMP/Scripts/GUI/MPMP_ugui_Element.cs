@@ -22,6 +22,8 @@ namespace monoflow {
         public monoflow.MPMP player;
         public Action OnSelected;
         public Action<float> OnDraged;
+        //chui code
+        public Action<float> OnPressed;
         public Action<double,double> OnUpdateTime;
         public Action OnUpdate;
         [HideInInspector]
@@ -79,6 +81,8 @@ namespace monoflow {
                 case Mode.SEEK:
                     _slider = GetComponent<Slider>();
                     OnDraged = new Action<float>((f) => { player.SeekTo(f,true); });
+                    //chui code
+                    OnPressed = new Action<float>((f) => { player.SeekTo(f, true); });
                     break;
                 case Mode.VOLUME:
                     _slider = GetComponent<Slider>();
@@ -199,12 +203,16 @@ namespace monoflow {
                         {
                             Debug.Log("ERROR Converting double to float:");
                         }
-                        Debug.Log("GetCurrentPosition:" + _slider.value);
+                        //Debug.Log("GetCurrentPosition:" + _slider.value);
                     }
                     if (_slider && _isPointerDown)
                     {
                         _UpdateDrag();
                     }
+
+                    //chui : UpdateSeek upon key press
+                    _UpdateSeek();
+                    
                     break;
                 case Mode.VOLUME:
                     if (_slider && !_isPointerDown)
@@ -420,7 +428,16 @@ namespace monoflow {
                 {
                     if (Input.GetKeyDown(KeyCode.UpArrow))
                     {
+                        _slider.value += 0.1f;
+                        OnPressed(_slider.value);
+                        Debug.Log("Key Up");
+                    }
 
+                    if (Input.GetKeyDown(KeyCode.DownArrow))
+                    {
+                        _slider.value -= 0.1f;
+                        OnPressed(_slider.value);
+                        Debug.Log("Key Down");
                     }
                 }
             }
